@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Datewise – The Daily Timeline Game</title>
+  <meta name="description" content="Put five moments from history in the right order. One new puzzle every day. Four tries. How good is your sense of time?">
+  <meta name="theme-color" content="#faf5ee" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#16141a" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="Datewise – The Daily Timeline Game">
+  <meta property="og:description" content="Put five moments from history in the right order. New puzzle every day.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Datewise home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Datewise</span>
+    </a>
+    <div class="topbar-actions">
+      <button class="icon-btn icon-btn--accent" id="btn-stats" aria-label="Your stats">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" /></svg>
+      </button>
+      <button class="icon-btn" id="btn-menu" aria-label="Menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="intro">
+      <h1 class="title">Datewise <button class="help-dot" id="btn-help" aria-label="How to play">?</button></h1>
+      <hr class="rule">
+      <p class="subtitle">Put five moments from history in order, oldest first.</p>
+      <p class="meta" aria-live="polite">
+        <span class="meta-item"><span class="meta-label">Puzzle</span> <span id="meta-puzzle">#1</span></span>
+        <span class="meta-item"><span class="meta-label">Tries</span> <span id="meta-tries">0 / 4</span></span>
+      </p>
+    </section>
+
+    <section class="board" aria-label="Game board">
+      <div class="axis axis--top"><span class="axis-arrow">▲</span> Older</div>
+      <ol class="cards" id="cards" aria-label="Events. Select one then another to swap them."></ol>
+      <div class="axis axis--bottom"><span class="axis-arrow">▼</span> Newer</div>
+    </section>
+
+    <div class="controls" id="controls">
+      <div class="history" id="history" aria-label="Your previous tries"></div>
+      <button class="btn btn--primary" id="btn-submit">Lock in</button>
+    </div>
+    <p class="hint-line" id="hint-line">Drag a card onto another to swap them, or tap two cards.</p>
+
+    <section class="result" id="result" hidden>
+      <h2 class="result-title" id="result-title"></h2>
+      <p class="result-sub" id="result-sub"></p>
+      <div class="result-grid" id="result-grid" aria-hidden="true"></div>
+      <div class="result-actions">
+        <button class="btn btn--primary" id="btn-share">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13" /></svg>
+          Share result
+        </button>
+        <button class="btn btn--ghost" id="btn-practice">Play a practice round</button>
+      </div>
+      <div class="result-stats" id="result-stats"></div>
+      <p class="countdown" id="countdown-wrap">Next puzzle in <span id="countdown">--:--:--</span></p>
+    </section>
+
+    <section class="about">
+      <h2>What is Datewise?</h2>
+      <p>Datewise is a free daily puzzle. You get five events from history, science, sport, film and India. Put them in order from oldest to newest. Everyone gets the same puzzle each day.</p>
+      <h2>How is it scored?</h2>
+      <p>You have four tries. After each try, cards in the right spot turn green and lock. The others show an arrow pointing to where they belong. Solve it in fewer tries to keep your streak.</p>
+      <p class="about-links"><button class="link-btn" id="btn-archive-inline">Play past puzzles →</button></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 Datewise</span>
+    <span class="dot">·</span>
+    <button class="link-btn" id="btn-help-footer">How to play</button>
+    <span class="dot">·</span>
+    <button class="link-btn" id="btn-archive-footer">Archive</button>
+  </footer>
+
+  <!-- Modals -->
+  <dialog class="modal" id="modal-help" aria-labelledby="help-title">
+    <button class="modal-close" data-close aria-label="Close">×</button>
+    <h2 id="help-title">How to play</h2>
+    <ol class="steps">
+      <li><strong>Order the five events</strong> from oldest at the top to newest at the bottom.</li>
+      <li><strong>Swap cards</strong> by dragging one onto another, or tap two cards.</li>
+      <li><strong>Lock in</strong> to check. You get four tries.</li>
+    </ol>
+    <div class="legend">
+      <div class="legend-row"><span class="chip chip--ok">✓</span> Right spot. The card locks.</div>
+      <div class="legend-row"><span class="chip chip--up">↑</span> Belongs higher (older).</div>
+      <div class="legend-row"><span class="chip chip--down">↓</span> Belongs lower (newer).</div>
+    </div>
+    <p class="muted">A new puzzle every day at midnight. Share your result without spoilers.</p>
+    <button class="btn btn--primary btn--block" data-close>Let's play</button>
+  </dialog>
+
+  <dialog class="modal" id="modal-stats" aria-labelledby="stats-title">
+    <button class="modal-close" data-close aria-label="Close">×</button>
+    <h2 id="stats-title">Your stats</h2>
+    <div id="stats-body"></div>
+  </dialog>
+
+  <dialog class="modal" id="modal-menu" aria-labelledby="menu-title">
+    <button class="modal-close" data-close aria-label="Close">×</button>
+    <h2 id="menu-title">Menu</h2>
+    <nav class="menu-list">
+      <a class="menu-item" href="./">Today's puzzle</a>
+      <button class="menu-item" id="menu-practice">Practice round (unlimited)</button>
+      <button class="menu-item" id="menu-archive">Past puzzles</button>
+      <button class="menu-item" id="menu-help">How to play</button>
+    </nav>
+  </dialog>
+
+  <dialog class="modal" id="modal-archive" aria-labelledby="archive-title">
+    <button class="modal-close" data-close aria-label="Close">×</button>
+    <h2 id="archive-title">Past puzzles</h2>
+    <div class="archive-grid" id="archive-grid"></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="events.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
